@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="06f80634-980f-4780-b107-9172dfb4a821" name="Changes" comment="Первая загрузка">
+    <list default="true" id="06f80634-980f-4780-b107-9172dfb4a821" name="Changes" comment="Обновил метод, который учитывает условия добавления корабля на поле">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Preparation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Preparation.java" afterDir="false" />
@@ -43,6 +43,20 @@
     &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;
   }
 }</component>
+  <component name="RunManager">
+    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="Main" />
+      <module name="Sea_battle" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.Main" />
+      </list>
+    </recent_temporary>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -52,7 +66,8 @@
       <option name="presentableId" value="Default" />
       <updated>1694612332798</updated>
       <workItem from="1694612334475" duration="10505000" />
-      <workItem from="1694702463240" duration="8038000" />
+      <workItem from="1694702463240" duration="8312000" />
+      <workItem from="1694785254152" duration="6521000" />
     </task>
     <task id="LOCAL-00001" summary="Первая загрузка">
       <created>1694667222174</created>
@@ -61,7 +76,14 @@
       <option name="project" value="LOCAL" />
       <updated>1694667222174</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Обновил метод, который учитывает условия добавления корабля на поле">
+      <created>1694712610693</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1694712610693</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -80,6 +102,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Первая загрузка" />
-    <option name="LAST_COMMIT_MESSAGE" value="Первая загрузка" />
+    <MESSAGE value="Обновил метод, который учитывает условия добавления корабля на поле" />
+    <option name="LAST_COMMIT_MESSAGE" value="Обновил метод, который учитывает условия добавления корабля на поле" />
   </component>
 </project>

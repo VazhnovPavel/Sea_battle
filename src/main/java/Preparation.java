@@ -1,84 +1,127 @@
 import java.util.Random;
 
 public class Preparation {
+    public static final int EMPTY = 0;
+    public static final int ONEDECKERSHIP = 1;
+    public static final int FOURDECKERSHIP = 4;
 
-
-    public int[][] createField(int i,int j){
-
-        //Создаем два поля 10 на 10
+    public int[][] createField(int i, int j) {
+        //Создаем два поля i на j
         int[][] battlefield = new int[i][j];
-
-    return battlefield;
+        return battlefield;
     }
 
-    public int[][] addRandomShips(int[][] field, int ... ships) {
+    public int[][] addRandomShips(int[][] battlefield) {
         Random random = new Random();
 
-        for (int ship : ships) {
-            do {
-                boolean horizontalShip = random.nextBoolean();
-                int i, j;
+        // Задаем количество кораблей каждого размера
+        int[] shipCounts = {4, 3, 2, 1};
 
-                if (horizontalShip) {
-                    i = random.nextInt(field.length);
-                    j = random.nextInt(field[0].length - ship + 1); // Учтем длину корабля
-                } else {
-                    i = random.nextInt(field.length - ship + 1); // Учтем длину корабля
-                    j = random.nextInt(field[0].length);
+        for (int shipSize = FOURDECKERSHIP; shipSize >= ONEDECKERSHIP; shipSize--) {
+            for (int shipCount = 0; shipCount < shipCounts[shipSize - 1]; shipCount++) {
+                boolean placed = false;
+
+                while (!placed) {
+                    int x = random.nextInt(battlefield.length);
+                    int y = random.nextInt(battlefield[0].length);
+                    boolean horizontal = random.nextBoolean();
+
+                    if (canPlaceShip(battlefield, x, y, shipSize, horizontal)) {
+                        placeShip(battlefield, x, y, shipSize, horizontal);
+                        placed = true;
+                    }
                 }
+            }
+        }
 
-                if (condition_1(field, i, j) && condition_2(field, i, j) && condition_3(field, i, j)) {
-                    for (int k = 0; k < ship; k++) {
-                        if (horizontalShip) {
-                            field[i][j + k] += 1;
-                        } else {
-                            field[i + k][j] += 1;
+        return battlefield;
+    }
+
+    private boolean canPlaceShip(int[][] battlefield, int x, int y, int shipSize, boolean horizontal) {
+        int rows = battlefield.length;
+        int cols = battlefield[0].length;
+
+        int[][] neighborOffsets = {
+                {-1, -1}, {-1, 0}, {-1, 1},
+                {0, -1},           {0, 1},
+                {1, -1}, {1, 0}, {1, 1}
+        };
+
+        if (horizontal) {
+            if (y + shipSize > cols) {
+                return false; // Корабль не помещается по горизонтали
+            }
+
+            for (int i = x; i < x + shipSize; i++) {
+                for (int j = y; j < y + shipSize; j++) {
+                    if (i >= 0 && i < rows && j >= 0 && j < cols) {
+                        if (battlefield[i][j] != EMPTY) {
+                            return false; // Есть пересечение с другим кораблем
+                        }
+                    } else {
+                        return false; // Выход за границы массива
+                    }
+
+
+
+
+            // Проверка соседних клеток
+                    for (int[] offset : neighborOffsets) {
+                        int ni = i + offset[0];
+                        int nj = j + offset[1];
+                        if (ni >= 0 && ni < rows && nj >= 0 && nj < cols && battlefield[ni][nj] != EMPTY) {
+                            return false; // Есть корабль в соседней клетке
                         }
                     }
                 }
-            } while (!isValid(field));
-        }
+            }
+        } else {
+            if (x + shipSize > rows) {
+                return false; // Корабль не помещается по вертикали
+            }
 
-        return field;
-    }
 
+            for (int i = x; i < x + shipSize; i++) {
+                for (int j = y; j < y + shipSize; j++) {
+                    if (i >= 0 && i < rows && j >= 0 && j < cols) {
+                        if (battlefield[i][j] != EMPTY) {
+                            return false; // Есть пересечение с другим кораблем
+                        }
+                    } else {
+                        return false; // Выход за границы массива
+                    }
 
-        private boolean condition_1 ( int[][] field, int i, int j){
-            // Проверяем, что координаты находятся в пределах массива
-            if (i >= 0 && i < field.length && j >= 0 && j < field[0].length) {
-                // Проверяем, что значение в указанной ячейке равно 0
-                return field[i][j] == 0;
-            } else {
-                // Координаты находятся за пределами массива, или не пустые
-                return false;
+                    // Проверка соседних клеток
+                    for (int[] offset : neighborOffsets) {
+                        int ni = i + offset[0];
+                        int nj = j + offset[1];
+                        if (ni >= 0 && ni < rows && nj >= 0 && nj < cols && battlefield[ni][nj] != EMPTY) {
+                            return false; // Есть корабль в соседней клетке
+                        }
+                    }
+                }
             }
         }
-        private boolean condition_2 ( int[][] field, int i, int j){
-            // Проверка соседних клеток: сверху, снизу, слева, справа
-            boolean aboveIsEmpty = i > 0 && (field[i - 1][j] == 0);
-            boolean belowIsEmpty = i < field.length - 1 && (field[i + 1][j] == 0);
-            boolean leftIsEmpty = j > 0 && (field[i][j - 1] == 0);
-            boolean rightIsEmpty = j < field[0].length - 1 && (field[i][j + 1] == 0);
 
-            // Если все соседние клетки пусты, то возвращаем true, иначе false
-            return aboveIsEmpty && belowIsEmpty && leftIsEmpty && rightIsEmpty;
-        }
-
-        private boolean condition_3 ( int[][] field, int i, int j){
-            // Проверка клеток по диагонали: справа-верх, справа-вниз, слева-верх, слева-низ
-            boolean upperRightIsEmpty = i > 0 && j < field[0].length - 1 && (field[i - 1][j + 1] == 0);
-            boolean lowerRightIsEmpty = i < field.length - 1 && j < field[0].length - 1 && (field[i + 1][j + 1] == 0);
-            boolean upperLeftIsEmpty = i > 0 && j > 0 && (field[i - 1][j - 1] == 0);
-            boolean lowerLeftIsEmpty = i < field.length - 1 && j > 0 && (field[i + 1][j - 1] == 0);
-
-            // Если все клетки по диагонали пусты, то возвращаем true, иначе false
-            return upperRightIsEmpty && lowerRightIsEmpty && upperLeftIsEmpty && lowerLeftIsEmpty;
-        }
-
-    // Допустимая конфигурация поля
-    private boolean isValid(int[][] field) {
-        // Реализуйте проверку допустимости поля
         return true;
     }
+
+
+
+    private void placeShip(int[][] battlefield, int x, int y, int shipSize, boolean horizontal) {
+        if (horizontal) {
+            for (int i = y; i < y + shipSize; i++) {
+                battlefield[x][i] = shipSize;
+            }
+        } else {
+            for (int i = x; i < x + shipSize; i++) {
+                battlefield[i][y] = shipSize;
+            }
+        }
     }
+}
+
+
+
+
 
