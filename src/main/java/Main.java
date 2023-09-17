@@ -1,4 +1,4 @@
-import java.sql.SQLOutput;
+
 
 public class Main {
     static final String WELCOME = "Добро пожаловать в игру «Морской Бой»! \n" +
@@ -8,15 +8,15 @@ public class Main {
     static final int HEIGHT_FIELD = 10;
 
 
-
-
-
     public static void main(String[] args) {
         System.out.println(WELCOME);
         Preparation preparation = new Preparation();
+
+        // Добавляем игровые поля
         int[][] battlefield_1 = preparation.createField(WIDTH_FIELD,HEIGHT_FIELD);
         int[][] battlefield_2 = preparation.createField(WIDTH_FIELD,HEIGHT_FIELD);
 
+        // Размещаем корабли игрока и компьютера в случайном порядке
         battlefield_1 = preparation.addRandomShips(battlefield_1);
         battlefield_2 = preparation.addRandomShips(battlefield_2);
 
@@ -27,12 +27,16 @@ public class Main {
 
     }
 
+    /**
+     * Печатаем поля боя с кораблями в консоль
+     */
     public static void printBattlefield(int[][] field) {
         for (int i = 0; i < field.length; i++) {
             for (int j = 0; j < field[0].length; j++) {
                 System.out.print(field[i][j] + " ");
             }
-            System.out.println(); // Переход на новую строку после каждой строки поля
+            // Переход на новую строку после каждой строки поля
+            System.out.println();
         }
     }
 
