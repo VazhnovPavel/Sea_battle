@@ -20,6 +20,9 @@ public class Preparation {
         return battlefield;
     }
 
+
+
+
     /**
      * Добавляем корабли на поле в случайных местах
      */
