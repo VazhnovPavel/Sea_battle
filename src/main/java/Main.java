@@ -16,36 +16,35 @@ public class Main {
         Gaming gaming = new Gaming();
 
         // Добавляем игровые поля
-        int[][] battlefield_1 = preparation.createField(WIDTH_FIELD,HEIGHT_FIELD);
-        int[][] battlefield_2 = preparation.createField(WIDTH_FIELD,HEIGHT_FIELD);
+        int[][] battlefield_player = preparation.createField(WIDTH_FIELD,HEIGHT_FIELD);
+        int[][] battlefield_computer = preparation.createField(WIDTH_FIELD,HEIGHT_FIELD);
         int[][] battlefield_X = preparation.createField(WIDTH_FIELD,HEIGHT_FIELD);
         // Размещаем корабли игрока и компьютера в случайном порядке
-        battlefield_1 = preparation.addRandomShips(battlefield_1);
-        battlefield_2 = preparation.addRandomShips(battlefield_2);
+        battlefield_player = preparation.addRandomShips(battlefield_player);
+        battlefield_computer = preparation.addRandomShips(battlefield_computer);
 
-        System.out.println("Твоё поле");
-        printBattlefield(battlefield_1);
+        gaming.printBattlefields(battlefield_player,"Твоё поле");
        // System.out.println("\nПоле компьютера");
-       // printBattlefield(battlefield_2);
-        System.out.println("\nЗакрытое поле компьютера");
-        printBattlefield(battlefield_X);
+       // printBattlefield(battlefield_computer);
+
+        gaming.printBattlefields(battlefield_X,"\nЗакрытое поле компьютера");
 
         System.out.println(RULES);
-        gaming.start(battlefield_1,battlefield_2,battlefield_X);
+        gaming.start(battlefield_player,battlefield_computer,battlefield_X);
 
     }
 
     /**
      * Печатаем поля боя с кораблями в консоль
      */
-    public static void printBattlefield(int[][] field) {
-        for (int i = 0; i < field.length; i++) {
-            for (int j = 0; j < field[0].length; j++) {
-                System.out.print(field[i][j] + " ");
-            }
-            // Переход на новую строку после каждой строки поля
-            System.out.println();
-        }
-    }
+//    public static void printIntBattlefield(int[][] field) {
+//        for (int i = 0; i < field.length; i++) {
+//            for (int j = 0; j < field[0].length; j++) {
+//                System.out.print(field[i][j] + " ");
+//            }
+//            // Переход на новую строку после каждой строки поля
+//            System.out.println();
+//        }
+//    }
 
 }

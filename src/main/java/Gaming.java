@@ -1,13 +1,12 @@
-import java.util.Objects;
 import java.util.Random;
 import java.util.Scanner;
 
 public class Gaming {
-    public void start(int[][] intBattlefield_1, int[][] intBattlefield_2, int[][] intBattlefield_X) {
+    public void start(int[][] intBattlefield_player, int[][] intBattlefield_computer, int[][] intBattlefield_X) {
 
-        // Преобразование массивов из int в String (для того, чтобы ставить символы 'X' и '•'
-        String[][] battlefield_1 = convertIntArrayToStringArray(intBattlefield_1);
-        String[][] battlefield_2 = convertIntArrayToStringArray(intBattlefield_2);
+        // Преобразование массивов из int в String (для того, чтобы ставить символы 'X' и '•')
+        String[][] battlefield_player = convertIntArrayToStringArray(intBattlefield_player);
+        String[][] battlefield_computer = convertIntArrayToStringArray(intBattlefield_computer);
         String[][] battlefield_X = convertIntArrayToStringArray(intBattlefield_X);
 
         Scanner scanner = new Scanner(System.in);
@@ -23,19 +22,11 @@ public class Gaming {
                 System.out.print("Введи координаты выстрела (строка и столбец, например, 1 2): ");
                 playerX = scanner.nextInt() - 1; // -1, чтобы сделать индексацию с 0
                 playerY = scanner.nextInt() - 1;
-            } while (playerX < 0 || playerX >= battlefield_2.length || playerY < 0 || playerY >= battlefield_2[0].length);
+            } while (playerX < 0 || playerX >= battlefield_computer.length || playerY < 0 || playerY >= battlefield_computer[0].length);
 
-            if (battlefield_2[playerX][playerY].equals("1") ||
-                    battlefield_2[playerX][playerY].equals("2") ||
-                    battlefield_2[playerX][playerY].equals("3") ||
-                    battlefield_2[playerX][playerY].equals("4")) {
-                battlefield_X[playerX][playerY] = "X";
-                System.out.println("Попадание!");
-            } else {
-                // Промах
-                battlefield_X[playerX][playerY] = "•";
-                System.out.println("Промах!");
-            }
+            //Проверяем, попал ли игрок, и выводим информацию в консоль
+            checkShoot(battlefield_computer,battlefield_X,playerX,playerY,"Игрок");
+
 
             //Вывод поля компьютера
             printBattlefields(battlefield_X, "Закрытое поле компьютера");
@@ -49,30 +40,18 @@ public class Gaming {
             System.out.println("Ход компьютера:");
             int computerX, computerY;
 
-                computerX = random.nextInt(battlefield_1.length  );
-                computerY = random.nextInt(battlefield_1[0].length );
+                computerX = random.nextInt(battlefield_player.length  );
+                computerY = random.nextInt(battlefield_player[0].length );
                 System.out.println("Компьютер ходит " + ((computerX)+1) +" " + ((computerY)+1)+ " и...");
 
-
-            if (battlefield_1[computerX][computerY].equals("1") ||
-                    battlefield_1[computerX][computerY].equals("2") ||
-                    battlefield_1[computerX][computerY].equals("3") ||
-                    battlefield_1[computerX][computerY].equals("4")) {
-
-                // Попадание компьютера
-                battlefield_1[computerX][computerY] = "X";
-                System.out.println("Компьютер попал!");
-            } else {
-                // Промах компьютера
-                battlefield_1[computerX][computerY] = "•";
-                System.out.println("Компьютер промахнулся!");
-            }
+                //Проверяем, попал ли компьютер, и выводим информацию в консоль
+                checkShoot(battlefield_player,battlefield_X,computerX,computerY,"Компьютер");
 
             // Вывод поля игрока
-            printBattlefields(battlefield_1, "Твоё поле");
+            printBattlefields(battlefield_player, "Твоё поле");
 
             // Проверка на победу компьютера
-            if (checkForVictory(battlefield_1, "Компьютеру")) {
+            if (checkForVictory(battlefield_player, "Компьютеру")) {
                 System.out.println("Компьютер выиграл!");
                 break;
             }
@@ -80,7 +59,17 @@ public class Gaming {
     }
 
     // Метод для вывода полей
-    private void printBattlefields(String[][] battlefield, String title) {
+//    protected void printStringBattlefields(String[][] battlefield, String title) {
+//        System.out.println(title);
+//        for (String[] row : battlefield) {
+//            for (String cell : row) {
+//                System.out.print(cell + " ");
+//            }
+//            System.out.println();
+//        }
+//    }
+
+    protected void printBattlefields(String[][] battlefield, String title) {
         System.out.println(title);
         for (String[] row : battlefield) {
             for (String cell : row) {
@@ -89,6 +78,17 @@ public class Gaming {
             System.out.println();
         }
     }
+
+    protected void printBattlefields(int[][] battlefield, String title) {
+        System.out.println(title);
+        for (int[] row : battlefield) {
+            for (int cell : row) {
+                System.out.print(cell + " ");
+            }
+            System.out.println();
+        }
+    }
+
 
     // Метод для преобразования int[][] в String[][]
     private String[][] convertIntArrayToStringArray(int[][] intArray) {
@@ -120,6 +120,32 @@ public class Gaming {
         System.out.println(player+ " осталось потопить "+ (20 - countX) + " палуб \n");
         return countX >= 20;
     }
+
+    public void checkShoot(String[][] battlefield,String[][] battlefield_X, int x, int y, String whoShoot) {
+        if (battlefield[x][y].equals("1") || battlefield[x][y].equals("2") ||
+                battlefield[x][y].equals("3") || battlefield[x][y].equals("4")) {
+
+            if (whoShoot.equals("Игрок")) {
+                battlefield_X[x][y] = "X";
+                System.out.println(whoShoot + " попал!\n");
+            }
+            else if (whoShoot.equals("Компьютер")) {
+                battlefield[x][y] = "X";
+                System.out.println(whoShoot + " попал!\n");
+            }
+        } else {
+            // Промах
+            if (whoShoot.equals("Игрок")) {
+                battlefield_X[x][y] = "•";
+                System.out.println("Промах!\n");
+            }
+            else if (whoShoot.equals("Компьютер")) {
+                battlefield[x][y] = "•";
+                System.out.println("Промах!\n");
+            }
+        }
+    }
+
 
 
 }

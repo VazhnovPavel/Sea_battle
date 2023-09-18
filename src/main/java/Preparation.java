@@ -2,8 +2,8 @@ import java.util.Random;
 
 public class Preparation {
     public static final int EMPTY = 0;
-    public static final int ONEDECKERSHIP = 1;
-    public static final int FOURDECKERSHIP = 4;
+    public static final int MINDECKERSHIP = 1;
+    public static final int MAXDECKERSHIP = 4;
 
     //соседние клетки, где нельзя размещать корабли
     public static final int[][]  NEIGHBOROFFSETS = {
@@ -21,8 +21,6 @@ public class Preparation {
     }
 
 
-
-
     /**
      * Добавляем корабли на поле в случайных местах
      */
@@ -33,7 +31,7 @@ public class Preparation {
         int[] shipCounts = {4, 3, 2, 1};
 
         // Прогоняем в массие все корабли всех размеров
-        for (int shipSize = FOURDECKERSHIP; shipSize >= ONEDECKERSHIP; shipSize--) {
+        for (int shipSize = MAXDECKERSHIP; shipSize >= MINDECKERSHIP; shipSize--) {
             for (int shipCount = 0; shipCount < shipCounts[shipSize - 1]; shipCount++) {
                 boolean placed = false;
 
@@ -92,7 +90,6 @@ public class Preparation {
                         return false;
                     }
                 } else {
-
                     // Выход за границы массива
                     return false;
                 }
